@@ -1,0 +1,79 @@
+
+
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}"
+   android:background="@drawable/background" >
+
+    <TextView
+        android:id="@+id/accountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/signUp"
+        android:layout_alignBottom="@+id/signUp"
+        android:layout_toLeftOf="@+id/signUp"
+        android:text="Don't have an account?"
+        android:textColorLink="@color/white" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/password"
+        android:text="Password:"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/password"
+        android:layout_below="@+id/textView2"
+        android:ems="10" 
+        android:textColorLink="@color/white" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/accountText"
+        android:layout_centerVertical="true"
+        android:text="Username:"
+        android:textColorLink="@color/white" />
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/login"
+        android:layout_marginRight="32dp"
+        android:text="Sign Up!"
+        android:textSize="10dp" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/username"
+        android:layout_toRightOf="@+id/textView2"
+        android:text="Login"
+        android:textSize="10dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/signUp"
+        android:layout_below="@+id/textView1"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColorLink="@color/white" />
+
+</RelativeLayout>

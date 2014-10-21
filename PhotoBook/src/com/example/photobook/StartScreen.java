@@ -60,7 +60,7 @@ public class StartScreen extends Activity {
 					 */
 					
 					/*Start picture book*/
-					Intent openPictureBook = new Intent(StartScreen.this, MainActivity.class);
+					Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
 					startActivity(openPictureBook);
 					
 				}

@@ -38,8 +38,8 @@ public class SignUp extends Activity {
 				 * */
 
 				/*Open login screen*/
-				Intent openLogin = new Intent(SignUp.this, StartScreen.class);
-				startActivity(openLogin);
+				Intent openStream = new Intent(SignUp.this, PictureStream.class);
+				startActivity(openStream);
 				
 			}
 		});

@@ -14,7 +14,7 @@
         android:text="Sign me up!" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/altitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/newPasswordConfirm"
@@ -34,14 +34,14 @@
         android:id="@+id/newPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
+        android:layout_above="@+id/altitude"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="26dp"
         android:ems="10"
         android:inputType="textPassword" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/newPassword"
@@ -52,7 +52,7 @@
         android:id="@+id/newUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
+        android:layout_above="@+id/temperature"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="31dp"
         android:ems="10" >
@@ -61,7 +61,7 @@
     </EditText>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/newUsername"

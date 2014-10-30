@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class StartScreen extends Activity {
 	
@@ -42,9 +43,10 @@ public class StartScreen extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				
+				/*Open sign up form*/
 				Intent openSignUp = new Intent(StartScreen.this, SignUp.class);
 				startActivity(openSignUp);
-				
 			}
 		});
 		 
@@ -55,14 +57,23 @@ public class StartScreen extends Activity {
 				@Override
 				public void onClick(View v) {
 					
-					/*Check for username/password match is valid
-					 * Return error message if no match
-					 */
+					/*Get username and password from user input*/
+					String usernameS, passwordS;
+					usernameS = username.getText().toString();
+					passwordS = password.getText().toString();
 					
-					/*Start picture book*/
-					Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
-					startActivity(openPictureBook);
+					/*if(username in database & password is correct){
+					 
+					 	Start picture book if success*/
+						Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
+						startActivity(openPictureBook);
+						
+					/*else if(username not in database){*/
+						Toast.makeText(StartScreen.this, "Username does not exist", Toast.LENGTH_LONG).show();
+					/*else if(password incorrect)*/
+						Toast.makeText(StartScreen.this, "Password incorrect", Toast.LENGTH_LONG).show();
 					
+			
 				}
 			});
 		

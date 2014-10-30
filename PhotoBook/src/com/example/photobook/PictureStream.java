@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/*Dynamic picture feed*/
 public class PictureStream extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,7 +20,7 @@ public class PictureStream extends Activity {
 	/*Create menu with new photo option, logout, and refresh?*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 	

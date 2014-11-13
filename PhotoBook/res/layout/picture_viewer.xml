@@ -3,27 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}"
-   >
+    android:background="@color/cream"
+    android:id="@+id/pictureViewerLayout">
+   
 
-    <FrameLayout
+
+    <TextView
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" 
-        android:id = "@+id/pictureViewer">
-
-    </FrameLayout>
+        android:text="Location: " />
 
     <TextView
         android:id="@+id/timeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/altitude"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="26dp"
-        android:text="TextView" />
+        android:layout_marginBottom="14dp"
+        android:text="Time: " />
+
+    <TextView
+        android:id="@+id/altitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/location"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="18dp"
+        android:text="Altitude: " />
 
     <TextView
         android:id="@+id/temperature"
@@ -31,25 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/timeStamp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/altitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/temperature"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/altitude"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="TextView" />
+        android:layout_marginBottom="14dp"
+        android:text="Temperature: " />
 
 </RelativeLayout>

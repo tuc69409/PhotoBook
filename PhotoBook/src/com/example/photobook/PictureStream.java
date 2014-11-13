@@ -92,9 +92,9 @@ public class PictureStream extends Activity {
 			photoStorage.mkdir();
 		}
 		
-		demo();
 		
-		//loadStream();
+		
+		loadStream();
 	}
 	
 	private void loadStream(){
@@ -155,10 +155,11 @@ public class PictureStream extends Activity {
 		photoLayout.addView(photoImageView);
 		//set on click listener for picture viewer, one for each or one to tell which picture clicked
 		photoImageView.setOnClickListener(new View.OnClickListener() {
+			String photoUri = imageUri.toString();
 			
 			@Override
 			public void onClick(View v) {
-				openPictureViewer();
+				openPictureViewer(photoUri);
 			}
 		});
 		
@@ -192,73 +193,17 @@ public class PictureStream extends Activity {
 	
 	}
 	
-	private void openPictureViewer(){
+	private void openPictureViewer(String photoUri){
 	//send photo uri as intent to picture viwer
-	
-	//FOR DEMO ONLY	
+
 		Intent openViewer = new Intent(PictureStream.this, PictureViewer.class);
-		
-		//FOR DEMO//
-		openViewer.putExtra("photoString", photoString);
-		
-		
+		openViewer.putExtra("photoUri", photoUri);
 		startActivity(openViewer);
 		
 	}
 	
 	
-	//FOR DEMO ONLY
-	private void demo(){
-		
-		
-		
-		//Get new photoString
-		photoString = getIntent().getStringExtra("photoString");
-		
-		
-		if(photoString != null)
-		{/*Initialize image loader*/
-		ImageLoader imageLoader;
-		DisplayImageOptions displayOptions;
-		
-		imageLoader = ImageLoader.getInstance();
-		
-		displayOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true)
-		.cacheOnDisc(true)
-		.bitmapConfig(Bitmap.Config.RGB_565)
-		.build();
-		
-		File cacheDir = StorageUtils.getCacheDirectory(this);
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-        .threadPoolSize(3)
-        .threadPriority(Thread.NORM_PRIORITY - 1)
-        .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 MBs
-        .discCache(new UnlimitedDiscCache(cacheDir))
-        .discCacheSize(50 * 1024 * 1024) // 50 MBs
-        .defaultDisplayImageOptions(displayOptions)
-        .build();
-		ImageLoader.getInstance().init(config);
-		
-		newImage = new ImageView(this);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			600, 600);
-		
-		newImage.setLayoutParams(lp);
-		
-		ImageLoader.getInstance().displayImage(photoString, newImage);
-		imageStream.addView(newImage);
-		
-		//set on click listener for picture viewer, one for each or one to tell which picture clicked
-		newImage.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				openPictureViewer();
-			}
-		});
-		}
-	}
+	
 	
 	
 

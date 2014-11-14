@@ -96,6 +96,7 @@ public class PictureEditor extends Activity{
 		/*Initialize caption field and layout*/
 		captionField = (EditText) findViewById(R.id.captionText);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.pictureEditorLayout);
+	
 		
 	/*Get photo from intent*/
 	photoString = getIntent().getStringExtra("photoUri");
@@ -104,8 +105,10 @@ public class PictureEditor extends Activity{
 		/* Display photo */
 		photoView = new ImageView(this);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-			RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-		lp.addRule(RelativeLayout.ABOVE, R.id.writeACaption);
+				RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+		//lp.addRule(RelativeLayout.ALIGN_TOP, R.id.pictureEditorLayout);
+		lp.setMargins(180, 0, 180, 430);
+		
 		photoView.setLayoutParams(lp);
 		
 		ImageLoader.getInstance().displayImage(photoString, photoView);

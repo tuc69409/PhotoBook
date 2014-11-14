@@ -8,6 +8,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.photobook.util.JSONParser;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;

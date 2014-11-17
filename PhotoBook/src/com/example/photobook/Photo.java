@@ -12,6 +12,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
+
+//FOR DEMO - use as method in general
 public class Photo extends Application {
 	ImageLoader imageLoader;
 	DisplayImageOptions displayOptions;

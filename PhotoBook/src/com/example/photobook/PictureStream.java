@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
-import com.example.photobook.util.API;
+
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -99,59 +99,25 @@ public class PictureStream extends Activity {
 	
 	private void loadStream(){
 
-		
-		
-		/*Create thread for JSON array creation*/
-//		Thread JSON = new Thread(){
-//			@Override
-//			public void run(){
-//				try {
-//					JSONArray streamArray = API.photoBooktoJson(PictureStream.this, userID);
-//					
-//					Message msg = Message.obtain();
-//					msg.obj = streamArray;
-//					
-//					streamHandler.sendMessage(msg);
-//				} catch (Exception e) {
-//				}
-//			}
-//		};
-//		JSON.start();
+//	Use JSON Parser to load stream. Add each to layout with putPhotoInLayout	
 	}
 	
-	/*Handler for JSON thread*/
-//	Handler streamHandler = new Handler(new Handler.Callback() {
-//		
-//		@Override
-//		public boolean handleMessage(Message msg) {
-//			
-//			
-//			JSONArray streamArray = (JSONArray) msg.obj;
-//			if (streamArray != null) {
-//				imageStream.removeAllViews();
-//				for (int i = 0; i < streamArray.length(); i++){
-//					try {
-//						imageStream.addView(getPhotoViewer(streamArray.getJSONObject(i)));
-//					} catch (JSONException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//			return false;
-//		}
-//	});
 	
-	private View getPhotoViewer(final JSONObject photoObject){
+	private View putPhotoInLayout(final JSONObject photoObject){
 		//Switch to stream??
 		GridLayout photoLayout = new GridLayout(this);
 		ImageView photoImageView = new ImageView(this);
 		GridLayout.LayoutParams lp = new GridLayout.LayoutParams(); 
 		photoImageView.setLayoutParams(lp);
-		try {
-			ImageLoader.getInstance().displayImage(photoObject.getString("image_url"), photoImageView);
-		} catch (JSONException e1) {
-			e1.printStackTrace();
-		}
+		
+			try {
+				//Check correct field of JSON Object
+				ImageLoader.getInstance().displayImage(photoObject.getString("image_url"), photoImageView);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		photoLayout.addView(photoImageView);
 		//set on click listener for picture viewer, one for each or one to tell which picture clicked
 		photoImageView.setOnClickListener(new View.OnClickListener() {

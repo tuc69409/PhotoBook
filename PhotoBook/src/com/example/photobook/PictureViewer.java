@@ -69,6 +69,7 @@ public class PictureViewer extends Activity {
 		
 		/*Get clicked picture from intent and display*/
 //		picture.setBackground(background);
+		//Use JSON Parser
 		
 		/*Get picture information from database and display*/
 		

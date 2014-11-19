@@ -48,6 +48,7 @@ public class PictureStream extends Activity {
 	File photoStorage, photo;
 	Uri imageUri;
 	
+	
 	String photoString;
 	
 	

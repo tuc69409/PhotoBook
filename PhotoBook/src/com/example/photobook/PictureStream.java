@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -29,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -83,6 +85,11 @@ public class PictureStream extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//Show Welcome Message
+		Intent intent = getIntent();
+		String welcome = intent.getStringExtra("welcome");
+		showDialog("Welcome to PhotoBook", welcome);
 		
 		imageStream = (GridLayout) findViewById(R.id.imageStream);
 		
@@ -168,10 +175,27 @@ public class PictureStream extends Activity {
 		
 	}
 	
+	private void showDialog(String title, String message) {
+		
+		AlertDialog.Builder aDialog = new AlertDialog.Builder(PictureStream.this);
+					// set title
+		aDialog.setTitle(title);
+		
+		// set dialog message
+		aDialog
+		.setMessage(message)
+		.setCancelable(false)
+		.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+		}
+		});
+		// create alert dialog
+		AlertDialog alertDialog = aDialog.create();
+		// show it
+		alertDialog.show();
+		Toast.makeText(PictureStream.this, message, Toast.LENGTH_LONG).show();
+	}
 	
-	
-	
-	
-
 	
 }

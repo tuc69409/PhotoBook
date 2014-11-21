@@ -76,49 +76,17 @@ public class SignUp extends Activity {
 				/*Check for matching passwords*/
 				if(userPwd.equals(userPwdConfirm)){
 					
-					 if(!TextUtils.isEmpty(userName) && userName.length() > 8 && !TextUtils.isEmpty(userPwd) && userPwd.length() > 8) {				 
+					 if(!TextUtils.isEmpty(userName) && userName.length() >=6 && !TextUtils.isEmpty(userPwd) && userPwd.length() >= 6) 
+					 {				 
 						new CreateNewUser().execute();
-					 } else {
-						AlertDialog.Builder aDialog = new AlertDialog.Builder(context);
- 						// set title
-						aDialog.setTitle("Sign Up for PhotoBook");
-			 
-						// set dialog message
-						aDialog
-							.setMessage("User name and password has to be at least 8 character long")
-							.setCancelable(false)
-							.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									dialog.cancel();
-							}
-						});
-						// create alert dialog
-						AlertDialog alertDialog = aDialog.create();
-						// show it
-						alertDialog.show();
-						Toast.makeText(SignUp.this, "User name/Password are in wrong format", Toast.LENGTH_LONG).show(); 
+					 } 
+					 else 
+					 {
+						showDialog("Sign Up for PhotoBook", "User name and password has to be at least 6 character long");			
 					 }
-					 
 				}
 				else{
-					AlertDialog.Builder aDialog = new AlertDialog.Builder(context);
-		 						// set title
-					aDialog.setTitle("Sign Up for PhotoBook");
-		 
-					// set dialog message
-					aDialog
-						.setMessage("Passwords do not match")
-						.setCancelable(false)
-						.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								dialog.cancel();
-						}
-					});
-					// create alert dialog
-					AlertDialog alertDialog = aDialog.create();
-					// show it
-					alertDialog.show();
-					Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_LONG).show();
+					showDialog("Sign Up for PhotoBook", "Passwords do not match");
 				}
 				
 			}
@@ -155,36 +123,62 @@ public class SignUp extends Activity {
 			// check log cat from response
 			Log.d("Create Response", json.toString());
 			
+			String result = null;
 			// check for success tag
 			try {
 				int success = json.getInt(TAG_SUCCESS);
 				if (success == 1) {
 					
+					String welcomemessage = json.getString(TAG_MESSAGE);
 					/*Open login screen*/
 					Intent openStream = new Intent(SignUp.this, PictureStream.class);
+					openStream.putExtra("welcome", welcomemessage);
 					startActivity(openStream);
 					
 					// closing this screen
 					finish();
-					return json.getString(TAG_MESSAGE);
-					
-				} else {
-					Log.d("Registering Failure!", json.getString(TAG_MESSAGE));
-					return json.getString(TAG_MESSAGE);
+					result = welcomemessage;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			
-			return null;	
+			return result;	
 		}
 		
 		//After completing background task Dismiss the progress dialog
 		
-		protected void onPostExecute(String file_url) {
+		protected void onPostExecute(String result) {
 			pDialog.dismiss();
+			
+			if (!"Account successfully created.".equals(result)) {
+				
+				showDialog("Sign Up" , "Oops! An error occurred.");
+			}
+			
 		}
 		
 	}
 	
+	private void showDialog(String title, String message) {
+		
+		AlertDialog.Builder aDialog = new AlertDialog.Builder(SignUp.this);
+					// set title
+		aDialog.setTitle(title);
+		
+		// set dialog message
+		aDialog
+		.setMessage(message)
+		.setCancelable(false)
+		.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+		}
+		});
+		// create alert dialog
+		AlertDialog alertDialog = aDialog.create();
+		// show it
+		alertDialog.show();
+		Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
+	}
 }

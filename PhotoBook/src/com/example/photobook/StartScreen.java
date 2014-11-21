@@ -42,7 +42,9 @@ public class StartScreen extends Activity {
 	Button signUp, login;
 	EditText username, password;
 	String userName, userPwd;
-	private ProgressDialog pDialog;
+    // Progress Dialog
+    private ProgressDialog pDialog;
+ 
     private static String url_login = "http://cis-linux2.temple.edu/~tuc69409/login.php";
     final Context context = this;
     
@@ -85,25 +87,10 @@ public class StartScreen extends Activity {
 					userName = password.getText().toString();
 					userPwd = username.getText().toString();
 					
-					 if(!TextUtils.isEmpty(userName) && userName.length() > 8 && !TextUtils.isEmpty(userPwd) && userPwd.length() > 8) {				 
+					 if(!TextUtils.isEmpty(userName) && userName.length() >= 6 && !TextUtils.isEmpty(userPwd) && userPwd.length() >= 6) {				 
 						new Login().execute();
 					 } else {
-						AlertDialog.Builder aDialog = new AlertDialog.Builder(context);
- 						// set title
-						aDialog.setTitle("Login to PhotoBook");
-						aDialog
-							.setMessage("User name and password has to be at least 8 character long")
-							.setCancelable(false)
-							.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,int id) {
-									dialog.cancel();
-							}
-						});
-						// create alert dialog
-						AlertDialog alertDialog = aDialog.create();
-						// show it
-						alertDialog.show();
-						Toast.makeText(StartScreen.this, "User name/Password are in wrong format", Toast.LENGTH_LONG).show(); 
+						showDialog("Login to PhotoBook", "User name and password has to be at least 6 character long"); 
 					 }
 			
 				}
@@ -136,57 +123,63 @@ public class StartScreen extends Activity {
 			// getting JSON Object
 			// Note that create product url accepts POST method
 			JSONObject json = jsonParser.makeHttpRequest(url_login, "GET", params);
-		
+			String result = null;
 			// check for success tag
 			try {
 				int success = json.getInt(TAG_SUCCESS);
 				if (success == 1) {
 					
 					
+					String welcomemessage = "Login Successful";
+					result = welcomemessage;
 					/*Open login screen*/
 					Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
-					openPictureBook.putExtra("userID", "json.getInt(TAG_MESSAGE)");
+					openPictureBook.putExtra("userID", json.getInt(TAG_MESSAGE));
+					openPictureBook.putExtra("welcome", welcomemessage);
 					startActivity(openPictureBook);
 					
-					// closing this screen
 					finish();
 					
-				//	return json.getString(TAG_MESSAGE);
 					
-				} else {
-					AlertDialog.Builder iDialog = new AlertDialog.Builder(context);
-						// set title
-					iDialog.setTitle("Login to PhotoBook");
-					iDialog
-						.setMessage("Incorrect User Name/Password")
-						.setCancelable(false)
-						.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								dialog.cancel();
-						}
-					});
-					// create alert dialog
-					AlertDialog alertiDialog = iDialog.create();
-					// show it
-					alertiDialog.show();
-					Toast.makeText(StartScreen.this, json.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show(); 
-				
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			
-			return null;	
+			return result;
 		}
 		
 		//After completing background task Dismiss the progress dialog
 		
-		protected void onPostExecute(String file_url) {
+		protected void onPostExecute(String result) {
 			pDialog.dismiss();
+			
+			if (result != "Login Successful") {
+				showDialog("Login to PhotoBook" , "Incorrect UserName/Password");
+			}
 		}
 		
 	}
 	
+	private void showDialog(String title, String message) {
+		
+		AlertDialog.Builder aDialog = new AlertDialog.Builder(StartScreen.this);
+					// set title
+		aDialog.setTitle(title);
+		
+		// set dialog message
+		aDialog
+		.setMessage(message)
+		.setCancelable(false)
+		.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+		}
+		});
+		// create alert dialog
+		AlertDialog alertDialog = aDialog.create();
+		// show it
+		alertDialog.show();
+		Toast.makeText(StartScreen.this, message, Toast.LENGTH_LONG).show();
+	}
 	
-
 }

@@ -11,10 +11,14 @@ import org.json.JSONObject;
 import com.example.photobook.util.JSONParser;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +34,7 @@ public class SignUp extends Activity {
 	Button signUp;
 	EditText username, password, passwordConfirm;
 	String userName, userPwd, userPwdConfirm;
+	final Context context = this;
 	
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -70,15 +75,49 @@ public class SignUp extends Activity {
 				
 				/*Check for matching passwords*/
 				if(userPwd.equals(userPwdConfirm)){
-					/*if (username is unique)
-					 *		{add username and password to database} 
-					 *else{
-					 *Toast.makeText(SignUp.this, "Username already exists", Toast.LENGTH_LONG).show();
-					 *}*/	
 					
-					new CreateNewUser().execute();
+					 if(!TextUtils.isEmpty(userName) && userName.length() > 8 && !TextUtils.isEmpty(userPwd) && userPwd.length() > 8) {				 
+						new CreateNewUser().execute();
+					 } else {
+						AlertDialog.Builder aDialog = new AlertDialog.Builder(context);
+ 						// set title
+						aDialog.setTitle("Sign Up for PhotoBook");
+			 
+						// set dialog message
+						aDialog
+							.setMessage("User name and password has to be at least 8 character long")
+							.setCancelable(false)
+							.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,int id) {
+									dialog.cancel();
+							}
+						});
+						// create alert dialog
+						AlertDialog alertDialog = aDialog.create();
+						// show it
+						alertDialog.show();
+						Toast.makeText(SignUp.this, "User name/Password are in wrong format", Toast.LENGTH_LONG).show(); 
+					 }
+					 
 				}
 				else{
+					AlertDialog.Builder aDialog = new AlertDialog.Builder(context);
+		 						// set title
+					aDialog.setTitle("Sign Up for PhotoBook");
+		 
+					// set dialog message
+					aDialog
+						.setMessage("Passwords do not match")
+						.setCancelable(false)
+						.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,int id) {
+								dialog.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = aDialog.create();
+					// show it
+					alertDialog.show();
 					Toast.makeText(SignUp.this, "Passwords do not match", Toast.LENGTH_LONG).show();
 				}
 				
@@ -87,7 +126,7 @@ public class SignUp extends Activity {
 	}
 
 	/**
-	†Background Async Task to Create new product
+	†Background Async Task to Create new user
 	†* */
 	class CreateNewUser extends AsyncTask<String, String, String> {
 
@@ -120,7 +159,7 @@ public class SignUp extends Activity {
 			try {
 				int success = json.getInt(TAG_SUCCESS);
 				if (success == 1) {
-					Log.d("User Created!", json.toString());
+					
 					/*Open login screen*/
 					Intent openStream = new Intent(SignUp.this, PictureStream.class);
 					startActivity(openStream);

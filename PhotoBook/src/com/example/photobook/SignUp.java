@@ -138,7 +138,7 @@ public class SignUp extends Activity {
 					// closing this screen
 					finish();
 					result = welcomemessage;
-				}
+				} else result = json.getString(TAG_MESSAGE);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -150,10 +150,13 @@ public class SignUp extends Activity {
 		
 		protected void onPostExecute(String result) {
 			pDialog.dismiss();
-			
-			if (!"Account successfully created.".equals(result)) {
+		
+			if ("User already exists".equals(result)) {
+				showDialog("Sign Up" , result);			
+			}
+			else if (!"Account successfully created".equals(result)) {
 				
-				showDialog("Sign Up" , "Oops! An error occurred.");
+				showDialog("Sign Up" , "Oops! An error occurred");
 			}
 			
 		}

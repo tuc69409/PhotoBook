@@ -84,8 +84,8 @@ public class StartScreen extends Activity {
 				public void onClick(View v) {
 								
 					/*Get user input*/
-					userName = password.getText().toString();
-					userPwd = username.getText().toString();
+					userName = username.getText().toString();
+					userPwd = password.getText().toString();
 					
 					 if(!TextUtils.isEmpty(userName) && userName.length() >= 6 && !TextUtils.isEmpty(userPwd) && userPwd.length() >= 6) {				 
 						new Login().execute();
@@ -134,7 +134,7 @@ public class StartScreen extends Activity {
 					result = welcomemessage;
 					/*Open login screen*/
 					Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
-					openPictureBook.putExtra("userID", json.getInt(TAG_MESSAGE));
+					openPictureBook.putExtra("userID", json.getString(TAG_MESSAGE));
 					openPictureBook.putExtra("welcome", welcomemessage);
 					startActivity(openPictureBook);
 					

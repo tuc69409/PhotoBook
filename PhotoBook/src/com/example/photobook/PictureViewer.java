@@ -104,7 +104,7 @@ public class PictureViewer extends Activity {
 		/* Display photo */
 		ImageView photoView = new ImageView(this);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-			RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
+		RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
 		lp.addRule(RelativeLayout.ABOVE, R.id.temperature);
 		photoView.setLayoutParams(lp);
 		

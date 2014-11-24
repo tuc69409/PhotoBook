@@ -1,8 +1,5 @@
 package com.example.photobook;
 
-
-
-
 import java.io.File;
 
 import org.json.JSONArray;
@@ -10,6 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -29,7 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -38,8 +37,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
-
-
 /*Dynamic picture feed*/
 public class PictureStream extends Activity {
 	
@@ -47,14 +44,12 @@ public class PictureStream extends Activity {
 	GridLayout imageStream;
 	File photoStorage, photo;
 	Uri imageUri;
+	boolean firsttime = true;
 	
-	String photoString;
-	
-	
+	String photoString, photoName;
 	
 	int TAKE_PICTURE_REQUEST_CODE = 123456;
 	int userID = 1999;
-	
 	
 	/*Create menu with new photo option, logout, and refresh?*/
 	@Override
@@ -62,7 +57,6 @@ public class PictureStream extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -75,6 +69,7 @@ public class PictureStream extends Activity {
 			/*Remove active from database to prevent multiples from log in??*/
 			Intent signOut = new Intent(PictureStream.this, StartScreen.class);
 			startActivity(signOut);
+			finish();
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -84,6 +79,15 @@ public class PictureStream extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		if(firsttime){
+			firsttime = false;
+			//Show Welcome Message
+			Intent intent = getIntent();
+			String welcome = intent.getStringExtra("welcome");
+		//	userID = Integer.parseInt(intent.getStringExtra("userID"));
+			showDialog("Welcome to PhotoBook", welcome);
+		}
+		
 		imageStream = (GridLayout) findViewById(R.id.imageStream);
 		
 		/*Check for local directory of photos, if not create one*/
@@ -92,14 +96,11 @@ public class PictureStream extends Activity {
 			photoStorage.mkdir();
 		}
 		
-		
-		
 		loadStream();
 	}
 	
 	private void loadStream(){
-
-//	Use JSON Parser to load stream. Add each to layout with putPhotoInLayout	
+		//	Use JSON Parser to load stream. Add each to layout with putPhotoInLayout	
 	}
 	
 	
@@ -136,8 +137,8 @@ public class PictureStream extends Activity {
 	private void takePicture(){
 	
 		Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		
-		photo = new File(photoStorage, String.valueOf(System.currentTimeMillis()) + ".jpg");
+		photoName = String.valueOf(System.currentTimeMillis());
+		photo = new File(photoStorage, photoName + ".jpg");
 		takePicture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
 		
 		imageUri = Uri.fromFile(photo);
@@ -152,7 +153,7 @@ public class PictureStream extends Activity {
 			Intent openPictureEditor = new Intent(PictureStream.this, PictureEditor.class);
 			String photoUri = imageUri.toString();
 			openPictureEditor.putExtra("photoUri", photoUri);
-	
+			openPictureEditor.putExtra("photoName", photoName);
 			startActivity(openPictureEditor);
 			
 		}
@@ -160,7 +161,7 @@ public class PictureStream extends Activity {
 	}
 	
 	private void openPictureViewer(String photoUri){
-	//send photo uri as intent to picture viwer
+	//send photo uri as intent to picture viewer
 
 		Intent openViewer = new Intent(PictureStream.this, PictureViewer.class);
 		openViewer.putExtra("photoUri", photoUri);
@@ -168,10 +169,27 @@ public class PictureStream extends Activity {
 		
 	}
 	
+	private void showDialog(String title, String message) {
+		
+		AlertDialog.Builder aDialog = new AlertDialog.Builder(PictureStream.this);
+					// set title
+		aDialog.setTitle(title);
+		
+		// set dialog message
+		aDialog
+		.setMessage(message)
+		.setCancelable(false)
+		.setNegativeButton("Ok",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+		}
+		});
+		// create alert dialog
+		AlertDialog alertDialog = aDialog.create();
+		// show it
+		alertDialog.show();
+		Toast.makeText(PictureStream.this, message, Toast.LENGTH_LONG).show();
+	}
 	
-	
-	
-	
-
 	
 }

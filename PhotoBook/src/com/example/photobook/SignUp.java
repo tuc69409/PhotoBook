@@ -121,6 +121,7 @@ public class SignUp extends Activity {
 					Log.d("User Created!", json.toString());
 					/*Open login screen*/
 					Intent openStream = new Intent(SignUp.this, PictureStream.class);
+					openStream.putExtra("username", userName);
 					startActivity(openStream);
 					
 					// closing this screen

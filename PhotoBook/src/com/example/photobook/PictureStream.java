@@ -49,7 +49,7 @@ public class PictureStream extends Activity {
 	Uri imageUri;
 	
 	
-	String photoString;
+	String photoString, userName;
 	
 	
 	
@@ -84,7 +84,7 @@ public class PictureStream extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		userName = String.valueOf(getIntent().getStringExtra("username"));
 		imageStream = (GridLayout) findViewById(R.id.imageStream);
 		
 		/*Check for local directory of photos, if not create one*/

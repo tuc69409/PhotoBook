@@ -66,6 +66,7 @@ public class StartScreen extends Activity {
 					 
 					 	Start picture book if success*/
 						Intent openPictureBook = new Intent(StartScreen.this, PictureStream.class);
+						openPictureBook.putExtra("username", usernameS);
 						startActivity(openPictureBook);
 						
 					/*else if(username not in database){*/

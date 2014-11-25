@@ -169,14 +169,14 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 		Intent uploadPhotobookIntent = new Intent(this, UploadService.class);
 		uploadPhotobookIntent.putExtra(UploadService.directory, Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
 		uploadPhotobookIntent.putExtra(UploadService.image, photo.getAbsolutePath());
-		uploadPhotobookIntent.getStringExtra(userName);
-		uploadPhotobookIntent.getStringExtra(photoName);
-		uploadPhotobookIntent.getStringExtra(photoCaption);
-		uploadPhotobookIntent.getStringExtra(photoPath);
-		uploadPhotobookIntent.getStringExtra(timeStamp);
-		uploadPhotobookIntent.getStringExtra(gpsLocation);
-		uploadPhotobookIntent.getStringExtra(locAltitude);
-		uploadPhotobookIntent.getStringExtra(locTemp);
+		uploadPhotobookIntent.putExtra(UploadService.userName, userName);
+		uploadPhotobookIntent.putExtra(UploadService.photoName,photoName);
+		uploadPhotobookIntent.putExtra(UploadService.photoCaption, photoCaption);
+		uploadPhotobookIntent.putExtra(UploadService.photoPath,photoPath);
+		uploadPhotobookIntent.putExtra(UploadService.timeStamp, timeStamp);
+		uploadPhotobookIntent.putExtra(UploadService.gpsLocation,gpsLocation);
+		uploadPhotobookIntent.putExtra(UploadService.locAltitude, locAltitude);
+		uploadPhotobookIntent.putExtra(UploadService.locTemp,locTemp);
 		startService(uploadPhotobookIntent);
 		Toast.makeText(this, "Uploading Photo", Toast.LENGTH_SHORT).show();
 	}

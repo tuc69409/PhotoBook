@@ -53,7 +53,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 	EditText captionField;
 	ImageView photoView;
 	File photo;
-	String photoCaption, photoName, photoPath, timeStamp, gpsLocation, locAltitude, locTemp;
+	String photoCaption, photoName, photoPath, timeStamp, gpsLocation, locAltitude, locTemp, userName;
 	private String photoString;
 	LocationClient locationClient;
 	Location loc;
@@ -119,6 +119,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 		
 	/*Get photo from intent*/
 	photoString = getIntent().getStringExtra("photoUri");
+	userName = String.valueOf(getIntent().getStringExtra("username"));
 	File storageDirectory = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
 	photo = new File(photoString); // Temporary file name
 	
@@ -158,7 +159,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 		photoCaption = captionField.getText().toString();
 		//Intent startService = new Intent(PictureEditor.this, "service class name");
 		//Pass caption and image as extra to service intent
-		
+		uploadPhoto();
 		returnToStream();
 		
 	}

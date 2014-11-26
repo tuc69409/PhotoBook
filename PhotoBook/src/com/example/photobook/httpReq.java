@@ -172,7 +172,7 @@ public class httpReq {
         
         files.put("image", image);
         
-        String response = makeAPICall(context, "/photobook.php", requestObject, files, userName);
+        String response = makeAPICall(context, "/getPhotobook.php", requestObject, files, userName);
         try {
             JSONObject responseObject = new JSONObject(response);
             if (responseObject.getString("status").equalsIgnoreCase("ok"))
@@ -186,7 +186,7 @@ public class httpReq {
     
     public static JSONArray getPhotos(Context context, String userName) throws Exception{
     	
-        String response = makeAPICall(context,  RequestMethod.GET, "photobook.php", null, userName);
+        String response = makeAPICall(context,  RequestMethod.GET, "getPhotobook.php", null, userName);
         
         try {
             JSONObject responseObject = new JSONObject(response);

@@ -9,7 +9,7 @@ import android.content.Intent;
 public class UploadService extends IntentService{
 
 	public static final String image = "image", directory = "directory", photoCaption = "photoCaption",
-			visibilityKey = "visibility", photoName = "photoName", photoPath = "photoPath", userName = "userName",
+			visibilityKey = "visibility", photoName = "photoName", photoPath = "photoPath", userID = "userID",
 					timeStamp = "timeStamp", gpsLocation ="gpsLocation", locAltitude = "locAltitude", 
 					locTemp = "locTemp";
 	public static final String REFRESH_ACTION = "refreshStream";
@@ -30,7 +30,7 @@ public class UploadService extends IntentService{
 			
 			
 			boolean status = httpReq.uploadPhotos(this, 
-					intent.getStringExtra(userName),
+					intent.getStringExtra(userID),
 			intent.getStringExtra(photoName), intent.getStringExtra(photoCaption), intent.getStringExtra(photoPath),
 			intent.getStringExtra(timeStamp), intent.getStringExtra(gpsLocation),intent.getStringExtra(locAltitude),
 			intent.getStringExtra(locTemp), new File(intent.getStringExtra(image)));			

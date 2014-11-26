@@ -1,6 +1,9 @@
 package com.example.photobook;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,10 +56,11 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 	EditText captionField;
 	ImageView photoView;
 	File photo;
-	String photoCaption, photoName, photoPath, timeStamp, gpsLocation, locAltitude, locTemp, userName;
+	String photoCaption, photoName, photoPath, timeStamp, gpsLocation, locAltitude, locTemp, userID;
 	private String photoString;
 	LocationClient locationClient;
 	Location loc;
+	
 	
 	
 	
@@ -119,9 +123,12 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 		
 	/*Get photo from intent*/
 	photoString = getIntent().getStringExtra("photoUri");
-	userName = String.valueOf(getIntent().getStringExtra("username"));
-	File storageDirectory = new File(Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
-	photo = new File(photoString); // Temporary file name
+	userID = getIntent().getStringExtra("userID");
+	
+	File storageDirectory = new File(photoString);
+	String fileName = userID + String.valueOf(System.currentTimeMillis()) + ".jpg";
+	photo = new File(storageDirectory, fileName ); // Temporary file name
+	photoName = fileName;
 	
 		/* Display photo */
 		photoView = new ImageView(this);
@@ -157,8 +164,16 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 	/*Save caption and take picture to information gathering service*/
 	private void saveClicked(){
 		photoCaption = captionField.getText().toString();
+		photoPath = "../photobook_files/";
+		
+		  SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+		    Date now = new Date();
+		    String strDate = sdfDate.format(now);
+		    
+		timeStamp = strDate;
 		//Intent startService = new Intent(PictureEditor.this, "service class name");
 		//Pass caption and image as extra to service intent
+		//photoName = userName + "-"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
 		uploadPhoto();
 		returnToStream();
 		
@@ -169,7 +184,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 		Intent uploadPhotobookIntent = new Intent(this, UploadService.class);
 		uploadPhotobookIntent.putExtra(UploadService.directory, Environment.getExternalStorageDirectory() + "/" + getString(R.string.app_name));
 		uploadPhotobookIntent.putExtra(UploadService.image, photo.getAbsolutePath());
-		uploadPhotobookIntent.putExtra(UploadService.userName, userName);
+		uploadPhotobookIntent.putExtra(UploadService.userID, userID);
 		uploadPhotobookIntent.putExtra(UploadService.photoName,photoName);
 		uploadPhotobookIntent.putExtra(UploadService.photoCaption, photoCaption);
 		uploadPhotobookIntent.putExtra(UploadService.photoPath,photoPath);
@@ -188,13 +203,10 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 	
 	
 	private void returnToStream(){
-	Intent returns = new Intent(PictureEditor.this, PictureStream.class);
-	
-	//FOR DEMO//
-	returns.putExtra("photoString", photoString);
-	
-	
-	startActivity(returns);
+		Intent returns = new Intent(PictureEditor.this, PictureStream.class);
+		//FOR DEMO//
+		returns.putExtra("photoString", photoString);
+		startActivity(returns);
 	}
 
 	@Override
@@ -219,7 +231,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 			loc = locationClient.getLastLocation();
 			gpsLocation = getAddressDetails(this, loc.getLatitude(), loc.getLongitude());
 			locAltitude = String.valueOf(loc.getAltitude());
-			(Toast.makeText(this, "Address is: " + gpsLocation + "and Altitude is : " + locAltitude, Toast.LENGTH_SHORT)).show();
+			//(Toast.makeText(this, "Address is: " + gpsLocation + "and Altitude is : " + locAltitude, Toast.LENGTH_SHORT)).show();
 		}
 	}
 
@@ -243,7 +255,7 @@ public class PictureEditor extends Activity implements LocationListener, GoogleP
 	        }
 	        else {
 	            if (addresses.size() > 0) {
-	               address = addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
+	               address = addresses.get(0).getAddressLine(0).substring(9) + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
 	                //Toast.makeText(getApplicationContext(), "Address:- " + addresses.get(0).getFeatureName() + addresses.get(0).getAdminArea() + addresses.get(0).getLocality(), Toast.LENGTH_LONG).show();
 	            }
 	        }
